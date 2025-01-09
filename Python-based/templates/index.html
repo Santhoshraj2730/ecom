@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .search-bar {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+        .item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 15px;
+            background: #fff;
+            width: 300px;
+            text-align: center;
+            display: inline-block;
+        }
+        .item img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .item h3 {
+            margin: 10px 0;
+        }
+        .item p {
+            margin: 5px 0;
+        }
+        .add-to-cart-button, .order-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .add-to-cart-button:hover, .order-button:hover {
+            background-color: #0056b3;
+        }
+        .view-cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .view-cart-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>E-commerce Website</h1>
+    <div class="search-container">
+        <form action="/search" method="get">
+            <input type="text" name="query" class="search-bar" placeholder="Search for items...">
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+    <a href="/view_cart" class="view-cart-button">View Cart</a>
+    <div class="items">
+        {% for item in items %}
+        <div class="item">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+            <p><strong>${{ item.price }}</strong></p>
+            <a href="/add_to_cart/{{ item.id }}" class="add-to-cart-button">Add to Cart</a>
+            <a href="/order/{{ item.id }}" class="order-button">Order</a>
+        </div>    
+        {% endfor %}
+    </div>
+    <div class="category-buttons">
+        <form action="/category/bag" method="get">
+            <button type="submit" class="category-button">Bags</button>
+        </form>
+    </div>
+    <div class="category-buttons">
+        <form action="/category/tv" method="get">
+            <button type="submit" class="category-button">tv</button>
+        </form>
+    </div>
+    <div class="category-buttons">
+        <form action="/category/phone" method="get">
+            <button type="submit" class="category-button">iphone</button>
+        </form>
+    </div>
+    <a href="/category/bag" class="category-button">Bags</a>
+    <div class="items">
+        {% for item in  bags  %}
+        <div class="item">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+            <p><strong>${{ item.price }}</strong></p>
+            <a href="/add_to_cart/{{ item.id }}" class="add-to-cart-button">Add to Cart</a>
+            <a href="/order/{{ item.id }}" class="order-button">Order</a>
+        </div>    
+        {% endfor %}
+    </div>
+</body>
+</html>

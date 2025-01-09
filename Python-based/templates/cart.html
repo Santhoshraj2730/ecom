@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .cart-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item p {
+            margin: 0;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        .quantity-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .quantity-button:hover {
+            background-color: #0056b3;
+        }
+        .checkout-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .checkout-button:hover {
+            background-color: #218838;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+        .user-details {
+            margin-top: 20px;
+        }
+        .user-details input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+        {% for item in cart_items %}
+        <div class="cart-item">
+            <p><strong>{{ item.item_name }}</strong></p>
+            <p>${{ item.item_price }}</p>
+            <div class="quantity-controls">
+                <form action="/decrease_quantity" method="POST" style="display: inline;">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit" class="quantity-button">-</button>
+                </form>
+                <p>{{ item.quantity }}</p>
+                <form action="/increase_quantity" method="POST" style="display: inline;">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit" class="quantity-button">+</button>
+                </form>
+            </div>
+            <form action="/delete_from_cart" method="POST" style="display: inline;">
+                <input type="hidden" name="cart_id" value="{{ item.id }}">
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+        <form action="/checkout" method="POST">
+            <div class="user-details">
+                <input type="text" name="user_name" placeholder="Your Name" required>
+                <input type="text" name="user_address" placeholder="Your Address" required>
+                <input type="text" name="user_phone" placeholder="Your Phone Number" required>
+            </div>
+            <button type="submit" class="checkout-button">Checkout</button>
+        </form>
+    </div>
+</body>
+</html>
